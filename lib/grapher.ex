@@ -3,16 +3,21 @@ defmodule Grapher do
   Documentation for Grapher.
   """
 
-  @doc """
-  Hello world.
+  use Application
 
-  ## Examples
+  alias __MODULE__
+  alias Grapher.SchemaContext.Store, as: SchemaStore
+  alias Grapher.Document.Store, as: DocumentStore
 
-      iex> Grapher.hello
-      :world
+  def start(_, _) do
+    import Supervisor.Spec
 
-  """
-  def hello do
-    :world
+    children = [
+      worker(SchemaStore, []),
+      worker(DocumentStore, [])
+    ]
+
+    opts = [strategy: :one_for_one, name: Grapher]
+    Supervisor.start_link(children, opts)
   end
 end
