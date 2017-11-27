@@ -1,9 +1,11 @@
-defmodule Grapher.Query.Store do
+defmodule Grapher.Document.Store do
   @moduledoc """
   A smal GenServer for managing the saving and updating of query documents.
   """
 
   use GenServer
+
+  alias Grapher.Document
 
   def start_link do
     GenServer.start_link(__MODULE__, :ok, name: __MODULE__)
@@ -12,7 +14,7 @@ defmodule Grapher.Query.Store do
   def init(:ok) do
     :ets.new(__MODULE__, [:set, :named_table, :protected])
 
-    :ok
+    {:ok, nil}
   end
 
   @doc """
@@ -32,9 +34,9 @@ defmodule Grapher.Query.Store do
       :document_exists
 
   """
-  @spec add_document(atom(), String.t) :: :ok | :document_exists
+  @spec add_document(atom(), Document.t) :: :ok | :document_exists
   def add_document(name, document) do
-    GenServer.call(__MODULE__, {:add, %{name: name, document: documment}})
+    GenServer.call(__MODULE__, {:add, %{name: name, document: document}})
   end
 
   @doc """
@@ -55,7 +57,7 @@ defmodule Grapher.Query.Store do
       :ok
 
   """
-  @spec update_document(atom(), String.t) :: :ok | :no_such_document
+  @spec update_document(atom(), Document.t) :: :ok | :no_such_document
   def update_document(name, document) do
     GenServer.call(__MODULE__, {:update, %{name: name, document: document}})
   end
@@ -77,14 +79,14 @@ defmodule Grapher.Query.Store do
       "query {}"
 
   """
-  @spec get(atom) :: String.t | :no_such_document
+  @spec get(atom) :: Document.t | :no_such_document
   def get(name) do
     __MODULE__
     |> :ets.lookup(name)
     |> case do
-         nil ->
+         [] ->
            :no_such_document
-         document ->
+         [{_key, document}] ->
            document
        end
   end
@@ -93,13 +95,13 @@ defmodule Grapher.Query.Store do
     __MODULE__
     |> :ets.lookup(name)
     |> case do
-         nil ->
+         [] ->
            __MODULE__
            |> :ets.insert({name, document})
 
-           {:ok, :ok, state}
+           {:reply, :ok, state}
          _doc ->
-           {:ok, :document_exists, state}
+           {:reply, :document_exists, state}
        end
   end
 
@@ -107,13 +109,13 @@ defmodule Grapher.Query.Store do
     __MODULE__
     |> :ets.lookup(name)
     |> case do
-         nil ->
-           {:ok, :no_such_document, state}
+         [] ->
+           {:reply, :no_such_document, state}
          _old_doc ->
            __MODULE__
            |> :ets.insert({name, document})
 
-           {:ok, :ok, state}
+           {:reply, :ok, state}
        end
   end
 end
