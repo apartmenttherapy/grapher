@@ -1,1 +1,3 @@
 ExUnit.start()
+
+Grapher.start([], [])
