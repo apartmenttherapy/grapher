@@ -1,16 +1,18 @@
 defmodule Grapher.Document.Store do
   @moduledoc """
-  A smal GenServer for managing the saving and updating of query documents.
+  Manages Saving, Updating and Lookup of GraphQL Documents.  The Document Store uses an `:ets` table to store all documents.  From the perspective of the Store a Document is a combination of a `name` and a `Grapher.Document.t` struct.  The name is typically either an `atom` or a `String.t`.
   """
 
   use GenServer
 
   alias Grapher.Document
 
+  @doc false
   def start_link do
     GenServer.start_link(__MODULE__, :ok, name: __MODULE__)
   end
 
+  @doc false
   def init(:ok) do
     :ets.new(__MODULE__, [:set, :named_table, :protected])
 
@@ -34,7 +36,7 @@ defmodule Grapher.Document.Store do
       :document_exists
 
   """
-  @spec add_document(atom(), Document.t) :: :ok | :document_exists
+  @spec add_document(Grapher.name, Document.t) :: :ok | :document_exists
   def add_document(name, document) do
     GenServer.call(__MODULE__, {:add, %{name: name, document: document}})
   end
@@ -57,7 +59,7 @@ defmodule Grapher.Document.Store do
       :ok
 
   """
-  @spec update_document(atom(), Document.t) :: :ok | :no_such_document
+  @spec update_document(Grapher.name, Document.t) :: :ok | :no_such_document
   def update_document(name, document) do
     GenServer.call(__MODULE__, {:update, %{name: name, document: document}})
   end
@@ -79,7 +81,7 @@ defmodule Grapher.Document.Store do
       "query {}"
 
   """
-  @spec get(atom) :: Document.t | :no_such_document
+  @spec get(Grapher.name) :: Document.t | :no_such_document
   def get(name) do
     __MODULE__
     |> :ets.lookup(name)

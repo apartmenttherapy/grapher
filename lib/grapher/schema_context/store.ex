@@ -35,7 +35,7 @@ defmodule Grapher.SchemaContext.Store do
       :context_already_configured
 
   """
-  @spec add_context(atom, SchemaContext.t) :: :ok | :context_already_configured
+  @spec add_context(Grapher.name, SchemaContext.t) :: :ok | :context_already_configured
   def add_context(name, context) do
     GenServer.call(__MODULE__, {:add, %{name: name, context: context}})
   end
@@ -58,7 +58,7 @@ defmodule Grapher.SchemaContext.Store do
       :no_such_context
 
   """
-  @spec update_context(atom, SchemaContext.t) :: :ok | :no_such_context
+  @spec update_context(Grapher.name, SchemaContext.t) :: :ok | :no_such_context
   def update_context(name, context) do
     GenServer.call(__MODULE__, {:update, %{name: name, context: context}})
   end
@@ -80,7 +80,7 @@ defmodule Grapher.SchemaContext.Store do
       %SchemaContext{url: "com.com.com", headers: []}
 
   """
-  @spec get(atom) :: SchemaContext.t | :no_such_context
+  @spec get(Grapher.name) :: SchemaContext.t | :no_such_context
   def get(name) do
     __MODULE__
     |> :ets.lookup(name)

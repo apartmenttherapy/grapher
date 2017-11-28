@@ -1,12 +1,48 @@
 defmodule Grapher.Document do
-  @moduedoc """
-  Definition for a GraphQL Document, a document can represent one of two "actions".  It is either a Query or a Mutation.  The `Document.t` struct provides a simple "container" for the actual document and a tag indicating which `type` it represents.
+  @moduledoc """
+  Definition for a GraphQL Document, a document can represent one of two "actions", it is either a Query or a Mutation.
+
+  As far as Grapher is concerned a Document is really two pieces of data:
+
+    1. The raw Document
+    2. A Reference to something that knows how to prepare it for transport
+
+  A quick note on the structure of your raw documents.  Grapher does not care if you prefer to write several focused/smaller documents or fewer larger/generic documents.
+
+  If you are only using a few different arguments in your requests it might make more sense to write more focused documents:
+
+  ```
+  query {
+    config(app: "CMS") {
+      id
+      hooks {
+        url
+      }
+    }
+  }
+  ```
+
+  A Document like the above could easily be tucked away behind a nice friendly name and no one has to worry about passing arguments.
+
+  If you are needing to be more dynamic in your requests it might make more sense to write more generic documents and specify your values when you call `Grapher.Executor.run/3`.
+
+  ```
+  query user($userId: ID!, $email: String, $name: String) {
+    user(userId: $userId, email: $email, name: $name) {
+      userId
+      email
+      name
+      picture
+      urls
+    }
+  }
+  ```
   """
 
   alias __MODULE__
   alias Grapher.GraphQL.Request
 
-  @type query_type :: :query | :mutation
+  @type doc_type :: :query | :mutation
   @type transport_formatter :: (... -> Request.t)
 
   defstruct [document: "", transport_formatter: &Request.query/2]
@@ -26,7 +62,7 @@ defmodule Grapher.Document do
       %Document{document: "query { thing { id } }", type: :query}
 
   """
-  @spec new(String.t, query_type()) :: __MODULE__.t
+  @spec new(String.t, doc_type()) :: __MODULE__.t
   def new(document, :query) do
     struct(__MODULE__, document: document, transport_formatter: &Request.query/2)
   end

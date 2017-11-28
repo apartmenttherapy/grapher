@@ -25,8 +25,11 @@ defmodule Grapher.Executor do
       %{val: "response"}
 
   """
-  @spec run(atom(), atom(), Request.var_data()) :: Response.t | Error.t | :no_schema | :no_query
-  def run(query, schema \\ :default, vars \\ nil) do
+  @spec run(Grapher.name, Grapher.name, Request.var_data()) :: Response.t
+                                                               | Error.t
+                                                               | :no_schema
+                                                               | :no_query
+  def run(query, schema, vars \\ nil) do
     with %SchemaContext{} = context <- ContextStore.get(schema),
          %Document{} = document <- DocumentStore.get(query)
     do
