@@ -23,6 +23,7 @@ defmodule Grapher.Mixfile do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
+      {:credo, ">= 0.0.0", only: [:dev, :test]},
       {:ex_doc, ">= 0.0.0", only: [:dev, :test], runtime: false},
       {:httpoison, ">= 0.0.0"},
       {:poison, ">= 0.0.0"}
