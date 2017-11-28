@@ -83,6 +83,6 @@ If your document allows for variables you can always add them when you run it
 ```elixir
 iex> doc = Document.new("query user($userId: ID!){ user(userId: $userID) { name } }", :query)
 iex> Grapher.Document.Store.add_document(:flexible, doc)
-iex> Grapher.Executor.run(:listings, :flexible, %{userId: "bob"})
+iex> Grapher.Executor.run(:flexible, :example, %{userId: "bob"})
 %Grapher.GraphQL.Response{data: %{user: %{name: "Bob Jones"}}, errors: :empty, status_code: 200, transport_error: :empty}
 ```
