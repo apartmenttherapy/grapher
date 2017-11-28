@@ -4,7 +4,7 @@ defmodule Grapher.Mixfile do
   def project do
     [
       app: :grapher,
-      version: "0.5.0",
+      version: "0.6.0",
       elixir: "~> 1.5",
       elixirc_paths: elixirc_paths(Mix.env),
       start_permanent: Mix.env == :prod,
@@ -15,6 +15,8 @@ defmodule Grapher.Mixfile do
   # Run "mix help compile.app" to learn about applications.
   def application do
     [
+      mod: {Grapher, []},
+      start_phases: [{:setup, []}],
       extra_applications: [:logger],
       env: [transport: HTTPoison]
     ]
