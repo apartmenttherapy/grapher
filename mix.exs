@@ -9,7 +9,7 @@ defmodule Grapher.Mixfile do
       elixirc_paths: elixirc_paths(Mix.env),
       start_permanent: Mix.env == :prod,
       deps: deps()
-    ]
+    ] ++ doc_config()
   end
 
   # Run "mix help compile.app" to learn about applications.
@@ -23,8 +23,17 @@ defmodule Grapher.Mixfile do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
+      {:ex_doc, ">= 0.0.0", only: [:dev, :test], runtime: false},
       {:httpoison, ">= 0.0.0"},
       {:poison, ">= 0.0.0"}
+    ]
+  end
+
+  defp doc_config do
+    [
+      name: "Grapher",
+      source_url: "https://github.com/apartmenttherapy.com/grapher",
+      docs: [extras: ["README.md"]]
     ]
   end
 
