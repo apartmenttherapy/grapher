@@ -16,8 +16,11 @@ defmodule Grapher.SchemaContext do
 
   ## Examples
 
-      iex> SchemaContext.new("http://axiom.atmedia.xyz/api")
-      %SchemaContext{url: "http://axiom.atmedia.xyz/api", headers: []}
+      iex> SchemaContext.new("http://www.example.xyz/api")
+      %SchemaContext{url: "http://www.example.xyz/api", headers: []}
+
+      iex> SchemaContext.new("http://www.example.com/api", ["Authentication": "My Token"])
+      %SchemaContext{url: "http://www.example.com/api", headers: ["Authentication": "My Token"]}
 
   """
   @spec new(String.t, Keyword.t) :: __MODULE__.t
