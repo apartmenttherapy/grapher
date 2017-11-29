@@ -1,5 +1,7 @@
 # Grapher
 
+[![Coverage Status](https://coveralls.io/repos/github/apartmenttherapy/grapher/badge.svg?branch=master)](https://coveralls.io/github/apartmenttherapy/grapher?branch=master)
+
 Grapher is a GraphQL Client for Elixir.  It allows you to manage multiple "schemas" as well as providing for a simple Document storage.
 
 Grapher is probably better suited for use in an application that needs to consume one or more GraphQL APIs than it is for quick discovery/exploration of an API.  Although nothing prevents you from using it to run queries from an `iex` session.
