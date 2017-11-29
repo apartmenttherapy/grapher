@@ -59,7 +59,11 @@ defmodule Grapher.Document do
   ## Examples
 
       iex> Document.new("query { thing { id } }", :query)
-      %Document{document: "query { thing { id } }", type: :query}
+      %Document{document: "query { thing { id } }", transport_formatter: &Grapher.GraphQL.Request.query/2}
+
+      iex> Document.new("mutation thing($id: ID, $name: String){ thing(id: $id, name: $name) { name } }", :mutation)
+      %Document{document: "mutation thing($id: ID, $name: String){ thing(id: $id, name: $name) { name } }", transport_formatter: &Grapher.GraphQL.Request.mutation/2}
+
 
   """
   @spec new(String.t, doc_type()) :: __MODULE__.t
