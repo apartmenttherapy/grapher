@@ -51,7 +51,7 @@ defmodule Grapher.Mixfile do
   defp doc_config do
     [
       name: "Grapher",
-      source_url: "https://github.com/apartmenttherapy.com/grapher",
+      source_url: "https://github.com/apartmenttherapy/grapher",
       docs: [extras: ["README.md"]]
     ]
   end
@@ -63,9 +63,9 @@ defmodule Grapher.Mixfile do
   defp package do
     [
       licenses: ["LGPLv3"],
-      maintainers: ["glen@apartmenttherapy.com"],
-      links: %{"GitHub" => "https://github.com/apartmenttherapy.com/grapher"},
-      source_url: "https://github.com/apartmenttherapy.com/grapher"
+      maintainers: ["Glen Holcomb"],
+      links: %{"GitHub" => "https://github.com/apartmenttherapy/grapher"},
+      source_url: "https://github.com/apartmenttherapy/grapher"
     ]
   end
 end
