@@ -9,6 +9,8 @@ defmodule Grapher.Mixfile do
       elixirc_paths: elixirc_paths(Mix.env),
       start_permanent: Mix.env == :prod,
       dialyzer: [plt_add_deps: :transitive, ignore_warnings: "dialyzer.ignore-warnings"],
+      description: description(),
+      package: package(),
       deps: deps()
     ] ++ doc_config() ++ coveralls_config()
   end
@@ -42,6 +44,10 @@ defmodule Grapher.Mixfile do
     ]
   end
 
+  defp description do
+    "A GraphQL client written in Elixir, providing document storage, management of multiple schemas and facilities for HTTP based schema auth."
+  end
+
   defp doc_config do
     [
       name: "Grapher",
@@ -53,4 +59,13 @@ defmodule Grapher.Mixfile do
   # Specifies which paths to compile per environment.
   defp elixirc_paths(:test), do: ["lib", "test/support"]
   defp elixirc_paths(_),     do: ["lib"]
+
+  defp package do
+    [
+      licenses: ["LGPLv3"],
+      maintainers: ["glen@apartmenttherapy.com"],
+      links: %{"GitHub" => "https://github.com/apartmenttherapy.com/grapher"},
+      source_url: "https://github.com/apartmenttherapy.com/grapher"
+    ]
+  end
 end
