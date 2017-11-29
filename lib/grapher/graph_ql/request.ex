@@ -27,7 +27,7 @@ defmodule Grapher.GraphQL.Request do
 
   """
   @spec query(String.t, nil | map()) :: map()
-  def query(query, vars) do
+  def query(query, vars \\ nil) do
     struct(__MODULE__, query: query, variables: vars)
   end
 
@@ -46,7 +46,7 @@ defmodule Grapher.GraphQL.Request do
 
   """
   @spec mutation(String.t, nil | map()) :: map()
-  def mutation(mutation, vars) do
+  def mutation(mutation, vars \\ nil) do
     struct(__MODULE__, mutation: mutation, variables: vars)
   end
 
@@ -59,9 +59,9 @@ defmodule Grapher.GraphQL.Request do
 
   ## Examples
 
-      iex> request = %Request{query: "query thing($id:ID!) { store(id: $id) { id } }", variables: %{id: 8}}
+      iex> request = %Request{query: "query { stores{ items } }", variables: nil}
       iex> Request.as_json(request)
-      "{\"query\": \"query thing($id:ID!) { store(id: $id) { id } }, \"variables\": { \"id\": 8 }}\"
+      "{\"variables\":null,\"query\":\"query { stores{ items } }\",\"mutation\":null}"
 
   """
   @spec as_json(__MODULE__.t) :: String.t
