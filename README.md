@@ -88,3 +88,12 @@ iex> Grapher.Document.Store.add_document(:flexible, doc)
 iex> Grapher.Executor.run(:flexible, :example, %{userId: "bob"})
 %Grapher.GraphQL.Response{data: %{user: %{name: "Bob Jones"}}, errors: :empty, status_code: 200, transport_error: :empty}
 ```
+
+### Loading Context and Document data at application start
+
+If you want to have your default documents and contexts ready and waiting when your application starts up you just need to add a module to your application which implements the `Grapher.SetupBehaviour` and then set the `:setup_module` config value for `grapher`
+
+```elixir
+config :grapher,
+  setup_module: MySetupModule
+```
