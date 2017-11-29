@@ -10,7 +10,7 @@ defmodule Grapher.Mixfile do
       start_permanent: Mix.env == :prod,
       dialyzer: [plt_add_deps: :transitive, ignore_warnings: "dialyzer.ignore-warnings"],
       deps: deps()
-    ] ++ doc_config()
+    ] ++ doc_config() ++ coveralls_config()
   end
 
   # Run "mix help compile.app" to learn about applications.
@@ -23,12 +23,20 @@ defmodule Grapher.Mixfile do
     ]
   end
 
+  defp coveralls_config do
+    [
+      test_coverage: [tool: ExCoveralls],
+      preferred_cli_env: ["coveralls": :test, "coveralls.detail": :test, "coveralls.post": :test, "coveralls.html": :test]
+    ]
+  end
+
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
       {:credo, ">= 0.0.0", only: [:dev, :test]},
       {:dialyxir, ">= 0.0.0", only: [:dev, :test], runtime: false},
       {:ex_doc, ">= 0.0.0", only: [:dev, :test], runtime: false},
+      {:excoveralls, ">= 0.0.0", only: [:test]},
       {:httpoison, ">= 0.0.0"},
       {:poison, ">= 0.0.0"}
     ]
