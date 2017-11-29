@@ -1,0 +1,40 @@
+steps:
+  - command: "mix local.hex --force\nmix local.rebar --force\nmix deps.get"
+    label: "Install Dependencies :package:"
+    env:
+      MIX_ENV: "test"
+
+  - "wait"
+
+  - command: "mix credo"
+    label: "Run Credo :eyes:"
+    env:
+      MIX_ENV: "test"
+
+  - "wait"
+
+  - command: "mix local.hex --force\nmix local.rebar --force\nmix dialyzer --halt-exit-status"
+    label: "Dialyxer :page_facing_up:"
+    env:
+      MIX_ENV: "test"
+      MIX_HOME: "/var/lib/buildkite-agent/grapher/plts"
+
+  - "wait"
+
+  - command: "mix coveralls"
+    label: "Run Tests :llama:"
+    env:
+      MIX_ENV: "test"
+
+  - "wait"
+
+  - command: "mix coveralls.post"
+    label: "Send Coverage Report :envelope:"
+
+  - "wait"
+
+  - command: "mix docs\nscp -r doc/* toolbox.apartmenttherapy.com:/www/docs/grapher/"
+    label: "Update Docs :book:"
+    env:
+      MIX_ENV: "test"
+    branches: "master"
