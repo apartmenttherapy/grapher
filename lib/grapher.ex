@@ -1,7 +1,5 @@
 defmodule Grapher do
-  @moduledoc """
-  Documentation for Grapher.
-  """
+  @moduledoc false
 
   @type name :: atom | String.t
 

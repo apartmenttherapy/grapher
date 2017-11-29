@@ -24,8 +24,8 @@ defmodule Grapher.Document.Store do
 
   ## Parameters
 
-    - name: An atom that should be used to refer to the given document
-    - document: The actual query document
+    - `name`: An atom that should be used to refer to the given document
+    - `document`: The actual query document
 
   ## Examples
 
@@ -47,8 +47,8 @@ defmodule Grapher.Document.Store do
 
   ## Parameters
 
-    - name: An atom refering to the document to be updated
-    - document: The new document that should be stored under `name`
+    - `name`: An atom refering to the document to be updated
+    - `document`: The new document that should be stored under `name`
 
   ## Examples
 
@@ -70,7 +70,7 @@ defmodule Grapher.Document.Store do
 
   ## Parameters
 
-    - name: the name of the query which should be returned
+    - `name`: the name of the query which should be returned
 
   ## Examples
 

@@ -11,8 +11,8 @@ defmodule Grapher.SchemaContext do
 
   ## Parameters
 
-    - url: The `URL` to which queries and mutations should be sent for this Schema
-    - headers: Optional HTTP Headers to be included with each request, this will default to `[]` if nothing is given
+    - `url`: The `URL` to which queries and mutations should be sent for this Schema
+    - `headers`: Optional HTTP Headers to be included with each request, this will default to `[]` if nothing is given
 
   ## Examples
 

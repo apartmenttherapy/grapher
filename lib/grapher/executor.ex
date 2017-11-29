@@ -15,9 +15,9 @@ defmodule Grapher.Executor do
 
   ## Parameters
 
-    - query: The name of the query to be run, if there is no query registered under this name then `:no_query` will be returned.
-    - schema: The name of the schema to run the query against, if there is no schema registered under this name then `:no_schema` will be returned.
-    - vars: A map of variables for the query.
+    - `query`: The name of the query to be run, if there is no query registered under this name then `:no_query` will be returned.
+    - `schema`: The name of the schema to run the query against, if there is no schema registered under this name then `:no_schema` will be returned.
+    - `vars`: A map of variables for the query.
 
   ## Examples
 

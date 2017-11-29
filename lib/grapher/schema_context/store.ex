@@ -22,8 +22,8 @@ defmodule Grapher.SchemaContext.Store do
 
   ## Parameters
 
-    - name: An atom that will be used to reference this Schema Configuration
-    - context: A `__MODULE__.t` struct defining the Schema Configuration
+    - `name`: An atom that will be used to reference this Schema Configuration
+    - `context`: A `Grapher.SchemaContext.t` struct defining the Schema Configuration
 
   ## Examples
 
@@ -45,8 +45,8 @@ defmodule Grapher.SchemaContext.Store do
 
   ## Parameters
 
-    - name: An atom representing the name of the schema to be updated
-    - context: A `__MODULE__.t` struct defining the Schem Configuration that should replace the current configuration
+    - `name`: An atom representing the name of the schema to be updated
+    - `context`: A `Grapher.SchemaContext.t` struct defining the Schem Configuration that should replace the current configuration
 
   ## Examples
 
@@ -68,7 +68,7 @@ defmodule Grapher.SchemaContext.Store do
 
   ## Parameters
 
-    - name: The registered name of the context to retrieve
+    - `name`: The registered name of the context to retrieve
 
   ## Examples
 

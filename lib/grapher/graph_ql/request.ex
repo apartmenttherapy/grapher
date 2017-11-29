@@ -1,6 +1,6 @@
 defmodule Grapher.GraphQL.Request do
   @moduledoc """
-  Defines a simple request struct for Grapher
+  The Grapher Request struct is a collection of all `query` and `mutation` documents along with any `variables`.
   """
 
   @type mutation_string :: nil | String.t
@@ -17,8 +17,8 @@ defmodule Grapher.GraphQL.Request do
 
   ## Parameters
 
-    - query: The GraphQL Query document as a `String.t`
-    - vars: A map of variables for the query
+    - `query`: The GraphQL Query document as a `String.t`
+    - `vars`: A map of variables for the query
 
   ## Examples
 
@@ -36,8 +36,8 @@ defmodule Grapher.GraphQL.Request do
 
   ## Parameters
 
-    - mutation: The GraphQL Mutation document as a `String.t`
-    - vars: A map of variables for the query
+    - `mutation`: The GraphQL Mutation document as a `String.t`
+    - `vars`: A map of variables for the query
 
   ## Examples
 
@@ -51,11 +51,11 @@ defmodule Grapher.GraphQL.Request do
   end
 
   @doc """
-  Converts a `__MODULE__.t` record to `JSON` format.
+  Converts a `Grapher.GraphQL.Request.t` struct to `JSON` format.
 
   ## Parameters
 
-    - request: The request struct to be converted
+    - `request`: The request struct to be converted
 
   ## Examples
 

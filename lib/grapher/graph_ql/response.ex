@@ -18,11 +18,11 @@ defmodule Grapher.GraphQL.Response do
                          transport_error: transport_error}
 
   @doc """
-  Creates a `__MODULE__.t` struct from an `HTTPoison.Response.t` struct.
+  Creates a `Grapher.GraphQL.Response.t` struct from an `HTTPoison.Response.t` struct.
 
   ## Parameters
 
-    - response: An HTTPoison response
+    - `response`: An HTTPoison response
 
   """
   @spec build(HTTPResponse.t()) :: __MODULE__.t

@@ -53,8 +53,8 @@ defmodule Grapher.Document do
 
   ## Parameters
 
-    - document: The full query document, it is recommended that variables not be included directly in the document.
-    - type: The document type, can be one of `:query` or `:mutation`
+    - `document`: The full query document, it is recommended that variables not be included directly in the document.
+    - `type`: The document type, can be one of `:query` or `:mutation`
 
   ## Examples
 
