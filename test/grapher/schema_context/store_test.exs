@@ -4,6 +4,8 @@ defmodule Grapher.SchemaContext.StoreTest do
   alias Grapher.SchemaContext
   alias Grapher.SchemaContext.Store
 
+  doctest Store
+
   describe "Storing a Context" do
     test "add_schema/2 returns `:ok` if the context is registered" do
       assert :ok = register_context(:test)

@@ -3,6 +3,8 @@ defmodule Grapher.GraphQL.ResponseTest do
 
   alias Grapher.GraphQL.Response
 
+  doctest Response
+
   @data "\"data\": {\"store\": {\"owner\": \"Bob\", \"id\": 3383}}"
   @error "\"errors\": {\"email_address\": \"Missing\"}"
 

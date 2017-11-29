@@ -29,10 +29,11 @@ defmodule Grapher.Document.Store do
 
   ## Examples
 
-      iex> QueryStore.add_document(:test, "query testQuery($id: ID!) { testQuery(id: $id) { id }}")
+      iex> Store.add_document(:add_test, "query testQuery($id: ID!) { testQuery(id: $id) { id }}")
       :ok
 
-      iex> QueryStore.add_document(:test, "query {}")
+      iex> Store.add_document(:add_test2, "query {}")
+      iex> Store.add_document(:add_test2, "query {}")
       :document_exists
 
   """
@@ -51,11 +52,11 @@ defmodule Grapher.Document.Store do
 
   ## Examples
 
-      iex> QueryStore.update_document(:test, "query {}")
+      iex> Store.update_document(:missing, "query {}")
       :no_such_document
 
-      iex> QueryStore.add_document(:existing, "query {}")
-      iex> QueryStore.update_document(:existing, "query { query() {}}")
+      iex> Store.add_document(:update, "query {}")
+      iex> Store.update_document(:update, "query { query() {}}")
       :ok
 
   """
@@ -73,11 +74,11 @@ defmodule Grapher.Document.Store do
 
   ## Examples
 
-      iex> QueryStore.get(:missing)
+      iex> Store.get(:missing)
       :no_such_document
 
-      iex> QueryStore.add_document(:test, "query {}")
-      iex> QueryStore.get(:test)
+      iex> Store.add_document(:get, "query {}")
+      iex> Store.get(:get)
       "query {}"
 
   """

@@ -3,6 +3,8 @@ defmodule Grapher.Document.StoreTest do
 
   alias Grapher.Document.Store
 
+  doctest Store
+
   describe "Storing a Query" do
     test "add_document/2 returns `:ok` if the query is registered" do
       assert :ok = register_document(:add1)

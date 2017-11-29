@@ -27,11 +27,11 @@ defmodule Grapher.SchemaContext.Store do
 
   ## Examples
 
-      iex> SchemaContext.add_context(:auth, %SchemaContext{url: "www.com.com", headers: []})
+      iex> Store.add_context(:auth1, %SchemaContext{url: "www.com.com", headers: []})
       :ok
 
-      iex> SchemaContext.add_context(:auth, %SchemaContext{url: "www.com.com"})
-      iex> SchemaContext.add_context(:auth, %SchemaContext{url: "www.net.com"})
+      iex> Store.add_context(:auth2, %SchemaContext{url: "www.com.com"})
+      iex> Store.add_context(:auth2, %SchemaContext{url: "www.net.com"})
       :context_already_configured
 
   """
@@ -50,11 +50,11 @@ defmodule Grapher.SchemaContext.Store do
 
   ## Examples
 
-      iex> SchemaContext.add_context(:update, %SchemaContext{url: "www.org.com"})
-      iex> SchemaContext.update_context(:update, %SchemaContext{url: "www.com.com"})
+      iex> Store.add_context(:update, %SchemaContext{url: "www.org.com"})
+      iex> Store.update_context(:update, %SchemaContext{url: "www.com.com"})
       :ok
 
-      iex> SchemaContext.update_context(:missing, %SchemaContext{url: "www.org.net"})
+      iex> Store.update_context(:missing, %SchemaContext{url: "www.org.net"})
       :no_such_context
 
   """
@@ -72,11 +72,11 @@ defmodule Grapher.SchemaContext.Store do
 
   ## Examples
 
-      iex> SchemaContext.get(:missing)
+      iex> Store.get(:missing)
       :no_such_context
 
-      iex> SchemaContext.add_context(:auth, %SchemaContext{url: "com.com.com"})
-      iex> SchemaContext.get(:auth)
+      iex> Store.add_context(:get, %SchemaContext{url: "com.com.com"})
+      iex> Store.get(:get)
       %SchemaContext{url: "com.com.com", headers: []}
 
   """
