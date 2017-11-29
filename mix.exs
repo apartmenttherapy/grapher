@@ -8,6 +8,7 @@ defmodule Grapher.Mixfile do
       elixir: "~> 1.5",
       elixirc_paths: elixirc_paths(Mix.env),
       start_permanent: Mix.env == :prod,
+      dialyzer: [plt_add_deps: :transitive, ignore_warnings: "dialyzer.ignore-warnings"],
       deps: deps()
     ] ++ doc_config()
   end
@@ -26,6 +27,7 @@ defmodule Grapher.Mixfile do
   defp deps do
     [
       {:credo, ">= 0.0.0", only: [:dev, :test]},
+      {:dialyxir, ">= 0.0.0", only: [:dev, :test], runtime: false},
       {:ex_doc, ">= 0.0.0", only: [:dev, :test], runtime: false},
       {:httpoison, ">= 0.0.0"},
       {:poison, ">= 0.0.0"}
