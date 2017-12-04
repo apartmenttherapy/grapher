@@ -6,7 +6,7 @@ defmodule Grapher.GraphQL.RequestTest do
   doctest Request, except: [{:as_json, 1}]
 
   test "as_json/1 converts a request to a JSON string" do
-    expected = "{\"variables\":null,\"query\":\"query { stores{ items } }\",\"mutation\":null}"
+    expected = "{\"variables\":null,\"query\":\"query { stores{ items } }\"}"
     request = %Request{query: "query { stores{ items } }"}
 
     assert ^expected = Request.as_json(request)

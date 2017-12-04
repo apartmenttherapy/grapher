@@ -42,10 +42,9 @@ defmodule Grapher.Document do
   alias __MODULE__
   alias Grapher.GraphQL.Request
 
-  @type doc_type :: :query | :mutation
-  @type transport_formatter :: (... -> Request.t)
+  @type transport_formatter :: (... -> %{query: String.t, variables: nil | map})
 
-  defstruct [document: "", transport_formatter: &Request.query/2]
+  defstruct [document: "", transport_formatter: &Request.new/2]
   @type t :: %__MODULE__{document: String.t, transport_formatter: transport_formatter()}
 
   @doc """
@@ -54,22 +53,24 @@ defmodule Grapher.Document do
   ## Parameters
 
     - `document`: The full query document, it is recommended that variables not be included directly in the document.
-    - `type`: The document type, can be one of `:query` or `:mutation`
+    - `formatter`: The function that should be used to format the document for transport.
 
   ## Examples
 
-      iex> Document.new("query { thing { id } }", :query)
-      %Document{document: "query { thing { id } }", transport_formatter: &Grapher.GraphQL.Request.query/2}
+      iex> Document.new("query { thing { id } }")
+      %Document{document: "query { thing { id } }", transport_formatter: &Grapher.GraphQL.Request.new/2}
 
-      iex> Document.new("mutation thing($id: ID, $name: String){ thing(id: $id, name: $name) { name } }", :mutation)
-      %Document{document: "mutation thing($id: ID, $name: String){ thing(id: $id, name: $name) { name } }", transport_formatter: &Grapher.GraphQL.Request.mutation/2}
+      iex> Document.new("mutation thing($id: ID, $name: String){ thing(id: $id, name: $name) { name } }")
+      %Document{document: "mutation thing($id: ID, $name: String){ thing(id: $id, name: $name) { name } }", transport_formatter: &Grapher.GraphQL.Request.new/2}
 
   """
-  @spec new(String.t, doc_type()) :: __MODULE__.t
-  def new(document, :query) do
-    struct(__MODULE__, document: document, transport_formatter: &Request.query/2)
-  end
-  def new(document, :mutation) do
-    struct(__MODULE__, document: document, transport_formatter: &Request.mutation/2)
+  @spec new(String.t, nil | transport_formatter) :: __MODULE__.t
+  def new(document, formatter \\ nil) do
+    case formatter do
+      nil ->
+        struct(__MODULE__, document: document)
+      formatter ->
+        struct(__MODULE__, document: document, transport_formatter: formatter)
+    end
   end
 end
