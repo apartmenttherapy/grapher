@@ -47,5 +47,5 @@ defmodule Grapher.ExecutorTest do
   end
 
   defp context, do: %SchemaContext{url: "web.page.com", headers: []}
-  defp document, do: Document.new("query { stuff { id } }", :query)
+  defp document, do: Document.new("query { stuff { id } }")
 end

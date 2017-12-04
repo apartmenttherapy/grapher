@@ -4,7 +4,7 @@ defmodule Grapher.Mixfile do
   def project do
     [
       app: :grapher,
-      version: "0.6.0",
+      version: "0.7.0",
       elixir: "~> 1.5",
       elixirc_paths: elixirc_paths(Mix.env),
       start_permanent: Mix.env == :prod,
