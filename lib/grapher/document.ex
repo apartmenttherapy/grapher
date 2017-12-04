@@ -48,7 +48,7 @@ defmodule Grapher.Document do
   @type t :: %__MODULE__{document: String.t, transport_formatter: transport_formatter()}
 
   @doc """
-  creates a new document struct from the given document string and type, if a type is not given the document defaults to a `query` type to prevent any unplesant surprises.
+  creates a new document struct from the given document string and formatter, if a formatter is not given the document defaults to the default behavior in `Grapher.GraphQL.Request.new/2`.
 
   ## Parameters
 

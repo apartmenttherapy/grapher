@@ -1,6 +1,6 @@
 defmodule Grapher.GraphQL.Request do
   @moduledoc """
-  The Grapher Request struct is a collection of all `query` and `mutation` documents along with any `variables`.
+  The Grapher Request struct is a collection of all `document` strings along with any `variables`.
   """
 
   @type query_string :: String.t
