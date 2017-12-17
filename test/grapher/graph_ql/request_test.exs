@@ -3,12 +3,10 @@ defmodule Grapher.GraphQL.RequestTest do
 
   alias Grapher.GraphQL.Request
 
-  doctest Request, except: [{:as_json, 1}]
+  doctest Request
 
-  test "as_json/1 converts a request to a JSON string" do
-    expected = "{\"variables\":null,\"query\":\"query { stores{ items } }\"}"
-    request = %Request{query: "query { stores{ items } }"}
-
-    assert ^expected = Request.as_json(request)
-  end
+  defp no_vars, do: %{query: "query { stores { items } }", variables: nil}
+  defp snake_atoms, do: %{query: "query { stores { items } }", variables: %{user_id: "bob"}}
+  defp camel_atoms, do: %{query: "query { stores { items } }", variables: %{userId: "bob"}}
+  defp string_keys, do: %{query: "query { stores { items } }", variables: %{"userId": "bob"}}
 end

@@ -3,6 +3,8 @@ defmodule Grapher.GraphQL.Request do
   The Grapher Request struct is a collection of all `document` strings along with any `variables`.
   """
 
+  alias Grapher.GraphQL.Formatter
+
   @type query_string :: String.t
   @type var_data :: nil | map()
 
@@ -38,15 +40,25 @@ defmodule Grapher.GraphQL.Request do
 
   ## Examples
 
-      iex> request = %Request{query: "query { stores{ items } }", variables: nil}
-      iex> Request.as_json(request)
-      "{\"variables\":null,\"query\":\"query { stores{ items } }\"}"
+      iex> Request.as_json(no_vars())
+      "{\\"variables\\":null,\\"query\\":\\"query { stores { items } }\\"}"
+
+      iex> Request.as_json(snake_atoms())
+      "{\\"variables\\":{\\"userId\\":\\"bob\\"},\\"query\\":\\"query { stores { items } }\\"}"
+
+      iex> Request.as_json(camel_atoms())
+      "{\\"variables\\":{\\"userId\\":\\"bob\\"},\\"query\\":\\"query { stores { items } }\\"}"
+
+      iex> Request.as_json(string_keys())
+      "{\\"variables\\":{\\"userId\\":\\"bob\\"},\\"query\\":\\"query { stores { items } }\\"}"
 
   """
   @spec as_json(%{query: String.t, variables: var_data}) :: String.t
-  def as_json(request) do
-    {:ok, body} = Poison.encode(request)
+  def as_json(%{query: query, variables: vars}) do
+    {:ok, body} = Poison.encode(%{query: query, variables: convert(vars)})
 
     body
   end
+
+  defp convert(data), do: Formatter.to_graph_ql(data)
 end

@@ -57,7 +57,8 @@ defmodule Grapher.GraphQL.Formatter do
       %{"userId" => "bob", "profile" => %{"personalSummary" => "Buy my crap"}}
 
   """
-  @spec to_graph_ql(map) :: map
+  @spec to_graph_ql(nil | map) :: map
+  def to_graph_ql(nil), do: nil
   def to_graph_ql(%{} = payload) do
     to_camel(payload)
   end
