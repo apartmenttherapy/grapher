@@ -6,7 +6,7 @@ defmodule Grapher.GraphQL.ResponseTest do
   doctest Response
 
   @data "\"data\": {\"store\": {\"owner\": \"Bob\", \"id\": 3383}}"
-  @error "\"errors\": {\"email_address\": \"Missing\"}"
+  @error "\"errors\": {\"emailAddress\": \"Missing\"}"
 
   describe "HTTP Success" do
     test "correctly processes the data attribute" do
@@ -37,5 +37,21 @@ defmodule Grapher.GraphQL.ResponseTest do
     test "returns the error message from the body" do
       assert %{transport_error: "Unauthorized"} = Response.build(%{status_code: 401, body: "Unauthorized"})
     end
+  end
+
+  defp error_response do
+    %{body: "{#{@error}}", status_code: 200}
+  end
+
+  defp mixed_response do
+    %{body: "{#{@data}, #{@error}}", status_code: 200}
+  end
+
+  defp success_response do
+    %{body: "{#{@data}}", status_code: 200}
+  end
+
+  defp transport_error do
+    %{body: "Not Authorized", status_code: 400}
   end
 end
