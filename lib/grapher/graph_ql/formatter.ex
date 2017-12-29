@@ -18,10 +18,21 @@ defmodule Grapher.GraphQL.Formatter do
       iex> Formatter.to_elixir(%{"userId" => "bob", "profile" => %{"personalSummary" => "Buy my crap"}})
       %{user_id: "bob", profile: %{personal_summary: "Buy my crap"}}
 
+      iex> Formatter.to_elixir([%{"locations" => [%{"column" => 0, "line" => 2}], "message" => "The specified user does not have a profile", "path" => ["updateProfile"]}])
+      [%{locations: [%{column: 0, line: 2}], message: "The specified user does not have a profile", path: ["updateProfile"]}]
+
   """
-  @spec to_elixir(map) :: map
+  @spec to_elixir(map | list) :: map | list
   def to_elixir(%{} = response) do
     to_snake(response)
+  end
+  def to_elixir(response) when is_list(response) do
+    Enum.map(response, fn
+      element when is_binary(element) ->
+        element
+      element ->
+        to_snake(element)
+    end)
   end
 
   defp to_snake(map) do
@@ -29,6 +40,8 @@ defmodule Grapher.GraphQL.Formatter do
       case value do
         %{} = value ->
           Map.put(converted, underscore(key), to_snake(value))
+        value when is_list(value) ->
+          Map.put(converted, underscore(key), to_elixir(value))
         _ ->
           Map.put(converted, underscore(key), value)
       end
