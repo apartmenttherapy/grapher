@@ -5,7 +5,7 @@ defmodule Grapher.Mixfile do
     [
       app: :grapher,
       version: "0.7.2",
-      elixir: "~> 1.5",
+      elixir: "~> 1.7",
       elixirc_paths: elixirc_paths(Mix.env),
       start_permanent: Mix.env == :prod,
       dialyzer: [plt_add_deps: :transitive, ignore_warnings: "dialyzer.ignore-warnings"],
