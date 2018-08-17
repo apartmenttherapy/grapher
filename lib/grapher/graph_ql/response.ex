@@ -5,7 +5,6 @@ defmodule Grapher.GraphQL.Response do
 
   alias HTTPoison.Response, as: HTTPResponse
   alias Grapher.GraphQL.Formatter
-  alias Poison.Parser
 
   @type data :: :empty | map()
   @type errors :: :empty | map()
@@ -49,7 +48,7 @@ defmodule Grapher.GraphQL.Response do
 
   defp parse(body) do
     body
-    |> Parser.parse()
+    |> Poison.decode()
     |> case do
          {:ok, %{"data" => data, "errors" => errors}} ->
            struct(__MODULE__, data: convert(data), errors: convert(errors))
