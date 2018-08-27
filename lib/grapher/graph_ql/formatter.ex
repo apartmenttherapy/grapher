@@ -87,11 +87,27 @@ defmodule Grapher.GraphQL.Formatter do
     end)
   end
 
-  defp camelize(key) do
+  defp camelize(key) when is_binary(key) do
+    key
+    |> String.split("_")
+    |> case do
+      [singleton] ->
+        singleton
+      [first | rest] ->
+        first <> capitalize_tail(rest)
+    end
+  end
+  defp camelize(key) when is_atom(key) do
     key
     |> Atom.to_string()
     |> String.split("_")
     |> Enum.scan(&(&2 <> String.capitalize(&1)))
     |> List.last()
+  end
+
+  defp capitalize_tail(tail) do
+    Enum.reduce(tail, "", fn part, result ->
+      result <> String.capitalize(part)
+    end)
   end
 end

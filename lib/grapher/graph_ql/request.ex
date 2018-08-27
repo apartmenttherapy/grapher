@@ -52,6 +52,9 @@ defmodule Grapher.GraphQL.Request do
       iex> Request.as_json(string_keys())
       "{\\"variables\\":{\\"userId\\":\\"bob\\"},\\"query\\":\\"query { stores { items } }\\"}"
 
+      iex> Request.as_json(camel_strings())
+      "{\\"variables\\":{\\"userId\\":\\"bob\\"},\\"query\\":\\"query { stores { items } }\\"}"
+
   """
   @spec as_json(%{query: String.t, variables: var_data}) :: String.t
   def as_json(%{query: query, variables: vars}) do
