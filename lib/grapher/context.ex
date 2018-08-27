@@ -3,6 +3,17 @@ defmodule Grapher.Context do
   A Query Execution Context, this module handles managing any shared data that should be included across multiple Grapher queries.
 
   When executing a query Grapher expects to find any existing context in the `Grapher.State` server.  A Context remains valid for the duration of a process.
+
+  ## Structure
+
+  The `t:Grapher.Context.t/0` struct holds two types of data:
+
+    * headers
+    * args
+
+  _headers_ - The headers attribute shoud hold any HTTP Request headers (`t:Grapher.Context.header_data/0`) which should be included with any subsequent `grapher` request.  These aren't headers that are the same for a service but rather anything that might vary.  For example, say you have a public API which needs to query multiple services (or a single service multiple times) in order to serve an external request.  It may be useful to share a `Request-ID` value across all the internal service calls for the purposes of logging or other tracing activities.
+
+  _args_ - The args attribute is also available if you happen to have an argument that is common to all your queries and that you maybe need to retrieve in an initial query or just need to keep things DRY for multiple reasons.
   """
 
   alias Grapher.GraphQL.Request

@@ -3,13 +3,15 @@ defmodule Grapher.State do
   A place for storing any data you may want to be available to all calls from a given process or for subsequent calls from the same process.
 
   For example at ApartmentTherapy we use this to maintain the initial `RequestID` when calling other services primarily for tracing in our logs.
+
+  Stale state entries will be removed from the store once they hit a specific age, which can be configured under `:grapher` -> `:state_lifetime` or 30 seconds if unset
   """
 
   use GenServer
 
   alias Grapher.Context
 
-  @lifespan Application.get_env(:grapher, :state_lifetime)
+  @lifespan Application.get_env(:grapher, :state_lifetime) || 30000
 
   @spec start_link() :: :ignore | {:error, any()} | {:ok, pid()}
   def start_link do
@@ -20,13 +22,17 @@ defmodule Grapher.State do
   def init(:ok) do
     :ets.new(__MODULE__, [:set, :named_table, :protected])
 
-    Process.send_after(__MODULE__, :purge, @lifespan)
+    Process.send_after(__MODULE__, :purge, purge_interval())
 
     {:ok, nil}
   end
 
   @doc """
-  Returns the state for the given PID if it has one
+  Returns the state for the given PID if it has one, if a `t:Grapher.Context.t/0` struct is found it is returned, otherwise for returns `nil`.
+
+  ## Parameters
+
+    - `pid`: The `pid` for which the `Context` should be fetched.
 
   ## Examples
 
@@ -72,7 +78,7 @@ defmodule Grapher.State do
   def handle_info(:purge, _) do
     :ets.select_delete(__MODULE__, expiration_query())
 
-    Process.send_after(__MODULE__, :purge, @lifespan)
+    Process.send_after(__MODULE__, :purge, purge_interval())
 
     {:noreply, nil}
   end
@@ -95,4 +101,7 @@ defmodule Grapher.State do
   def stale_after(span) when is_binary(span) do
     :erlang.system_time(:seconds) - String.to_integer(span)
   end
+
+  @spec purge_interval() :: integer
+  def purge_interval, do: Integer.floor_div(@lifespan, 3) * 1000
 end
