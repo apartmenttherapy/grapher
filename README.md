@@ -8,13 +8,13 @@ Grapher is probably better suited for use in an application that needs to consum
 
 ## Installation
 
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed
+[Available in Hex](https://hex.pm/packages/grapher), the package can be installed
 by adding `grapher` to your list of dependencies in `mix.exs`:
 
 ```elixir
 def deps do
   [
-    {:grapher, "~> 0.1.0"}
+    {:grapher, "~> 0.9.0"}
   ]
 end
 ```
@@ -97,3 +97,19 @@ If you want to have your default documents and contexts ready and waiting when y
 config :grapher,
   setup_module: MySetupModule
 ```
+
+### Saving/Sharing data between requests
+
+At AT Media our Marketplace API really consists of three services, two of which live behind the main public API.  Unfortunately this complicates our logging process.  It is not easy to determine which service requests were spawned by a particular public API request.  For this reason we have introduced a new Context which is scoped to the life of a process.
+
+To start tracking/sharing data with calls from the current thread simply initialize a `Grapher.Context` struct with the data you wish to share across requests:
+
+```
+iex> context = Grapher.Context.new(headers: ["request-id": "38bdkhg348thgdk"])
+iex> State.update(context)
+:ok
+```
+
+Whenever you execute a call with `grapher` it will check for a context belonging to the current process (`pid`) and merge the data in the context with any data provided to the query.
+
+*NOTE*: Each call to `State.update/1` will replace any saved context with the context provided.
