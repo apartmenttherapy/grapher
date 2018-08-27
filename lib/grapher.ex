@@ -7,6 +7,7 @@ defmodule Grapher do
 
   alias __MODULE__
   alias Grapher.SchemaContext.Store, as: SchemaStore
+  alias Grapher.State
   alias Grapher.Document.Store, as: DocumentStore
 
   @doc false
@@ -15,7 +16,8 @@ defmodule Grapher do
 
     children = [
       worker(SchemaStore, []),
-      worker(DocumentStore, [])
+      worker(DocumentStore, []),
+      worker(State, [])
     ]
 
     opts = [strategy: :one_for_one, name: Grapher]
