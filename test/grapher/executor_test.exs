@@ -1,11 +1,9 @@
 defmodule Grapher.ExecutorTest do
   use ExUnit.Case
 
-  alias Grapher.Document
+  alias Grapher.{Context, Document, Executor, SchemaContext, State}
   alias Grapher.Document.Store, as: DocumentStore
-  alias Grapher.Executor
-  alias Grapher.GraphQL.{Response, Request}
-  alias Grapher.SchemaContext
+  alias Grapher.GraphQL.Response
   alias Grapher.SchemaContext.Store, as: SchemaStore
 
   describe "Passthrough" do
@@ -36,6 +34,25 @@ defmodule Grapher.ExecutorTest do
 
       assert %Response{} = Executor.run(:error1, :error1, %{})
     end
+  end
+
+  test "run/3 merges headers from the state if it is set" do
+    :ok = register_context(:header_test)
+    :ok = register_query(:header_test, %Document{document: "header_test"})
+
+    State.update(%Context{headers: ["request-id": "42"]})
+    headers = Executor.run(:header_test, :header_test, %{}).data().headers()
+
+    assert %{"request-id": "42"} = headers
+  end
+
+  test "run/3 merges in args from the state into the request if set" do
+    :ok = register_context(:state_args)
+    :ok = register_query(:state_args, %Document{document: "state_args"})
+
+    State.update(%Context{args: %{user: 42}})
+
+    assert %{user: 42} = Executor.run(:state_args, :state_args, %{}).data().vars()
   end
 
   defp register_context(name) do

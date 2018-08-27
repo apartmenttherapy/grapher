@@ -3,6 +3,7 @@ defmodule Grapher.Executor do
   Functions for runing queries against a Schema
   """
 
+  alias Grapher.{Context, State}
   alias Grapher.Document
   alias Grapher.Document.Store, as: DocumentStore
   alias Grapher.GraphQL.{Response, Request}
@@ -30,15 +31,18 @@ defmodule Grapher.Executor do
                                                                | :no_schema
                                                                | :no_query
   def run(query, schema, vars \\ nil) do
+    state = fetch_state()
+
     with %SchemaContext{} = context <- ContextStore.get(schema),
          %Document{} = document <- DocumentStore.get(query)
     do
+      vars = Map.merge(state.args(), vars)
       body =
         document.document()
         |> document.transport_formatter.(vars)
         |> Request.as_json()
 
-      post(context, body)
+      post(context, state, body)
     else
       :no_such_context ->
         :no_schema
@@ -47,9 +51,21 @@ defmodule Grapher.Executor do
     end
   end
 
-  defp post(%{url: url, headers: headers}, body) do
+  @spec fetch_state() :: Context.t
+  defp fetch_state do
+    case State.for(self()) do
+      nil ->
+        %Context{}
+      context ->
+        context
+    end
+  end
+
+  defp post(%{url: url, headers: headers}, state, body) do
+    current_headers = Context.update(state, headers: headers).headers()
+
     url
-    |> transport().post(body, merge_headers(headers))
+    |> transport().post(body, merge_headers(current_headers))
     |> case do
          {:ok, response} ->
            Response.build(response)

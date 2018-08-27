@@ -14,7 +14,7 @@ defmodule Grapher.SchemaContext.StoreTest do
     test "add_schema/2 returns `:context_already_configured` if a context is already saved" do
       :ok = register_context(:conflict)
 
-      assert :context_already_configured = Store.add_context(:conflict, context)
+      assert :context_already_configured = Store.add_context(:conflict, context())
     end
   end
 
@@ -26,7 +26,7 @@ defmodule Grapher.SchemaContext.StoreTest do
     end
 
     test "update_schema/2 returns `:no_such_context` if no context is registered" do
-      assert :no_such_context = Store.update_context(:update2, context)
+      assert :no_such_context = Store.update_context(:update2, context())
     end
   end
 
