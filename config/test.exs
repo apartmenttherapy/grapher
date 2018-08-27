@@ -1,4 +1,5 @@
 use Mix.Config
 
 config :grapher,
-  transport: Grapher.MockHTTP
+  transport: Grapher.MockHTTP,
+  state_lifetime: 3

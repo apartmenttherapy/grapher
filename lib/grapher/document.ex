@@ -39,7 +39,6 @@ defmodule Grapher.Document do
   ```
   """
 
-  alias __MODULE__
   alias Grapher.GraphQL.Request
 
   @type transport_formatter :: (... -> %{query: String.t, variables: nil | map})
