@@ -28,7 +28,7 @@ defmodule Grapher.Context do
 
   """
   @spec new() :: __MODULE__.t
-  def new(), do: %__MODULE__{}
+  def new, do: %__MODULE__{}
 
   @doc """
   Creates a new context
@@ -61,7 +61,6 @@ defmodule Grapher.Context do
     struct(record, args: values)
   end
   defp add_arg(_, record), do: record
-
 
   @doc """
   Updates the given struct by merging the given parameters.

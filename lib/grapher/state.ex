@@ -12,7 +12,7 @@ defmodule Grapher.State do
   @lifespan Application.get_env(:grapher, :state_lifetime)
 
   @spec start_link() :: :ignore | {:error, any()} | {:ok, pid()}
-  def start_link() do
+  def start_link do
     GenServer.start_link(__MODULE__, :ok, name: __MODULE__)
   end
 
