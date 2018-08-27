@@ -7,12 +7,12 @@ defmodule Grapher.Context do
 
   alias Grapher.GraphQL.Request
 
-  defstruct headers: %{}, args: %{}
+  defstruct headers: [], args: %{}
   @type t :: %__MODULE__{
                headers: header_data,
                args: Request.var_data
               }
-  @type header_data :: %{optional(String.t) => String.t}
+  @type header_data :: Keyword.t
   @type data :: [
                        {:headers, header_data},
                        {:args, Request.var_data}
@@ -39,14 +39,14 @@ defmodule Grapher.Context do
 
   ## Examples
 
-      iex> Context.new(headers: %{"request-id" => "33"})
-      %Context{headers: %{"request-id" => "33"}}
+      iex> Context.new(headers: ["request-id": "33"])
+      %Context{headers: ["request-id": "33"]}
 
       iex> Context.new(args: %{user_id: "33"})
       %Context{args: %{user_id: "33"}}
 
-      iex> Context.new(headers: %{"request-id" => "33"}, args: %{user_id: "33"})
-      %Context{headers: %{"request-id" => "33"}, args: %{user_id: "33"}}
+      iex> Context.new(headers: ["request-id": "33"], args: %{user_id: "33"})
+      %Context{headers: ["request-id": "33"], args: %{user_id: "33"}}
 
   """
   @spec new(data) :: __MODULE__.t
@@ -72,14 +72,14 @@ defmodule Grapher.Context do
 
   ## Examples
 
-      iex> Context.update(existing, headers: %{"request-ip" => "2.3.4.5"})
-      %Context{headers: %{"request-id" => "33", "request-ip" => "2.3.4.5"}}
+      iex> Context.update(existing(), headers: ["request-ip": "2.3.4.5"])
+      %Context{headers: ["request-id": "33", "request-ip": "2.3.4.5"]}
 
-      iex> Context.update(existing, headers: %{"request-id" => "42"})
-      %Context{headers: %{"request-id" => "42"}}
+      iex> Context.update(existing(), headers: ["request-id": "42"])
+      %Context{headers: ["request-id": "42"]}
 
-      iex> Context.update(%Context{}, headers: %{"request-ip" => "2.3.4.5"})
-      %Context{headers: %{"request-ip" => "2.3.4.5"}}
+      iex> Context.update(%Context{}, headers: ["request-ip": "2.3.4.5"])
+      %Context{headers: ["request-ip": "2.3.4.5"]}
 
   """
   @spec update(__MODULE__.t, data) :: __MODULE__.t
@@ -88,7 +88,7 @@ defmodule Grapher.Context do
   end
 
   defp merge_arg({:headers, values}, record) do
-    updated = Map.merge(record.headers(), values)
+    updated = Keyword.merge(record.headers(), values)
 
     struct(record, headers: updated)
   end

@@ -13,6 +13,6 @@ defmodule Grapher.ContextTest do
   end
 
   def existing do
-    %Context{headers: %{"request-id" => "33"}}
+    %Context{headers: ["request-id": "33"]}
   end
 end
