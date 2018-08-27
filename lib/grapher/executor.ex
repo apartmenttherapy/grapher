@@ -49,7 +49,7 @@ defmodule Grapher.Executor do
 
   defp post(%{url: url, headers: headers}, body) do
     url
-    |> transport.post(body, merge_headers(headers))
+    |> transport().post(body, merge_headers(headers))
     |> case do
          {:ok, response} ->
            Response.build(response)
